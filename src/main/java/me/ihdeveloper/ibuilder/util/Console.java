@@ -8,6 +8,8 @@ import java.util.Date;
 public class Console {
 	
 	private final PrintStream out;
+	private long start;
+	private String lastMessage;
 	
 	public Console(PrintStream out) {
 		this.out = out;
@@ -33,9 +35,27 @@ public class Console {
 		this.println("debug", message);
 	}
 	
+	public void loading(String message) {
+		this.print("log", message + " | Loading...\r"); 
+		this.start = System.currentTimeMillis();
+		this.lastMessage = message;
+	}
+	
+	public void done() {
+		long duration = System.currentTimeMillis() - start;
+		String state = String.format(" | Done! (%sms)", duration);
+		this.println("log", lastMessage + state);
+		this.lastMessage = null;
+		this.start = -1;
+	}
+	
 	private void println(String state, String message) {
+		this.print(state, message + "\n");
+	}
+	
+	private void print(String state, String message) {
 		final String output = String.format("[%s] [%s]: %s", getDate(), state.toUpperCase(), message);
-		this.out.println(output);
+		this.out.print(output);
 	}
 	
 	private String getDate() {

@@ -5,6 +5,14 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>iBuilder</name>
   <description>A tool that helps you inject a code into the minecraft server.</description>
+  <dependencies>
+  	<dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>20.0</version> <!-- Last version that supports Java 7 -->
+        <scope>compile</scope>
+    </dependency>
+  </dependencies>
   <build>
     <plugins>
       <plugin>

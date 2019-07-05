@@ -27,6 +27,11 @@ public class SetupGitTask extends Task {
 			} catch (Exception e) {
 				Worker.git(IBuilder.getRoot(), "config", "--global", "user.name", "iBuilder");
 			}
+			try {
+				Worker.git(IBuilder.getRoot(), "config", "--global", "--includes", "user.email");
+			} catch (Exception e) {
+				Worker.git(IBuilder.getRoot(), "config", "--global", "user.email", "ibuilder@ihdeveloper.github.com");
+			}
 		} catch (Exception ex) {
 			getConsole().debug(ex.getMessage());
 			return false;

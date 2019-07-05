@@ -20,6 +20,13 @@ public class Worker {
 		return create(directory, args.toArray(new String[0]));
 	}
 	
+	public static int maven(File directory, String... command) throws IllegalArgumentException, IOException, InterruptedException {
+		List<String> args = new ArrayList<String>();
+		args.add(IBuilder.getMaven().getAbsolutePath() + "/bin/mvn");
+		args.addAll(Arrays.asList(command));
+		return create(directory, args.toArray(new String[0]));
+	}
+	
 	public static int create(File directory, String... command) throws IllegalArgumentException, IOException, InterruptedException {
 		Worker worker = new Worker(directory, command);
 		return worker.start();

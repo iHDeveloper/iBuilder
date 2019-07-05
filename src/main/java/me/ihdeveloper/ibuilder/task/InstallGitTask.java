@@ -8,10 +8,11 @@ import me.ihdeveloper.ibuilder.util.Worker;
 
 public class InstallGitTask extends Task {
 
+	public static final String GIT_FOLDER = "PortableGit";
 	public static final String GIT_INTSALL_FILE = "git-installer.exe";
 	
 	public InstallGitTask() {
-		super("Install Git");
+		super("Installing Git");
 	}
 	
 	@Override
@@ -25,6 +26,7 @@ public class InstallGitTask extends Task {
 			Worker.create(IBuilder.getRoot(), installer.getAbsolutePath(), "-y", "-gm2", "-nr");
 			installer.delete();
 		} catch (Exception e) {
+			getConsole().debug(e.getMessage());
 			return false;
 		}
 		return true;

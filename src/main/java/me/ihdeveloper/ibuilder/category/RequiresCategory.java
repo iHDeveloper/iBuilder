@@ -19,7 +19,7 @@ public class RequiresCategory extends Category {
 	private static final String SPIGOTMC_STATIC_URL = "https://static.spigotmc.org/";
 	
 	public RequiresCategory() {
-		super("Requirements");
+		super("Setting up the requirements");
 		if (IBuilder.isWindows())
 			installGit();
 		installMaven();

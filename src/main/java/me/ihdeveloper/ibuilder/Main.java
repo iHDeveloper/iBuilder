@@ -2,6 +2,7 @@ package me.ihdeveloper.ibuilder;
 
 import java.io.File;
 
+import me.ihdeveloper.ibuilder.category.CloneCategory;
 import me.ihdeveloper.ibuilder.category.RequiresCategory;
 import me.ihdeveloper.ibuilder.util.Console;
 
@@ -15,7 +16,8 @@ public class Main {
 		console.log("Building...");
 		System.out.println();
 		Category[] categories = {
-				new RequiresCategory()
+				new RequiresCategory(),
+				new CloneCategory()
 		};
 		for (Category category : categories) {
 			boolean failed = !category.start();

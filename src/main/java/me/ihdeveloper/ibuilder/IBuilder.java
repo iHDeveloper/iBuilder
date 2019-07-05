@@ -9,6 +9,7 @@ public final class IBuilder {
 	private static Console console;
 	private static File root;
 	private static File git;
+	private static File maven;
 	
 	public static void setConsole(Console console) {
 		IBuilder.console = console;
@@ -20,6 +21,10 @@ public final class IBuilder {
 	
 	public static void setGit(File git) {
 		IBuilder.git = git;
+	}
+	
+	public static void setMaven(File maven) {
+		IBuilder.maven = maven;
 	}
 	
 	public static boolean isWindows() {
@@ -36,6 +41,10 @@ public final class IBuilder {
 	
 	public static File getGit() {
 		return git;
+	}
+	
+	public static File getMaven() {
+		return maven;
 	}
 	
 	public static File getRoot(String name) {

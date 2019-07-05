@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.google.common.io.Files;
 import com.google.common.io.Resources;
 
 import me.ihdeveloper.ibuilder.Config;
@@ -14,7 +15,8 @@ import me.ihdeveloper.ibuilder.util.HashFormat;
 
 public class DownloadTask extends Task {
 	
-	private final Config config;
+	private final String name;
+	private final String url;
 	private final String target;
 	private final HashFormat hashFormat;
 	private final String proofHash;
@@ -24,8 +26,13 @@ public class DownloadTask extends Task {
 	}
 	
 	public DownloadTask(Config config, String target, HashFormat hashFormat, String proofHash) {
-		super("Download " + config.getName());
-		this.config = config;
+		this(config.getName(), config.getUrl(), target, hashFormat, proofHash);
+	}
+	
+	public DownloadTask(String name, String url, String target, HashFormat hashFormat, String proofHash) {
+		super("Downloading " + name + " [ " + url + " ]");
+		this.name = name;
+		this.url = url;
 		this.target = target;
 		this.hashFormat = hashFormat;
 		this.proofHash = proofHash;
@@ -33,17 +40,18 @@ public class DownloadTask extends Task {
 	
 	@Override
 	public boolean run() {
-		File targetDir = new File(IBuilder.getRoot() + target);
-		if (targetDir.exists()) {
+		File targetFile = IBuilder.getRoot(target);
+		if (targetFile.exists()) {
 			return true;
 		}
 		try {
-			byte[] data = Resources.toByteArray(new URL(config.getUrl()));
+			byte[] data = Resources.toByteArray(new URL(this.url));
 			String hash = hashFormat.getHashing().hashBytes(data).toString();
-			if (hash != proofHash) {
-				setMessage("Hash of the file is not proofed!");
+			if (!hash.equalsIgnoreCase(proofHash)) {
+				setMessage("hash of the file is not proofed!");
 				return false;
 			}
+			Files.write(data, targetFile);
 			return true;
 		} catch (MalformedURLException ex) {
 			setMessage("Wrong url");
@@ -55,11 +63,7 @@ public class DownloadTask extends Task {
 	
 	@Override
 	public void setMessage(String message, Object... args) {
-		super.setMessage("Failed to download: %s ( %s )", config.getName(), String.format(message, args));
-	}
-	
-	public Config getConfig() {
-		return config;
+		super.setMessage("Failed to download: %s ( %s )", name, String.format(message, args));
 	}
 	
 }

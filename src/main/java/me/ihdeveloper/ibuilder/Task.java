@@ -1,5 +1,7 @@
 package me.ihdeveloper.ibuilder;
 
+import me.ihdeveloper.ibuilder.util.Console;
+
 public abstract class Task {
 	
 	private final String name;
@@ -28,6 +30,10 @@ public abstract class Task {
 	
 	public String getMessage() {
 		return message;
+	}
+	
+	public Console getConsole() {
+		return IBuilder.getConsole();
 	}
 	
 	@Override

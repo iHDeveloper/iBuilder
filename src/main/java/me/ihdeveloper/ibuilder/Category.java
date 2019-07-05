@@ -1,45 +1,47 @@
 package me.ihdeveloper.ibuilder;
 
+import java.util.ArrayList;
+
 import me.ihdeveloper.ibuilder.util.Console;
 
 public class Category {
 	
-	private final String name;
-	private Task[] tasks;
+	private static final String TASK_PREFIX = "|-> ";
 	
-	public Category(String name, Task[] tasks) {
+	private final String name;
+	private ArrayList<Task> tasks;
+	
+	public Category(String name) {
 		this.name = name;
-		setTasks(tasks);
+		this.tasks = new ArrayList<Task>();
 	}
 	
 	public boolean start() {
 		Console console = IBuilder.getConsole();
 		console.log("-> " + getName());
-		console.addPrefix();
 		boolean state = true;
 		for (Task task : tasks) {
-			if (!task.run()) {
-				console.err(task.getMessage());
-				state = false;
+			// TODO loading when the debug mode is off
+			console.log(TASK_PREFIX + task.getName());
+			boolean failed = !task.run();
+//			console.done();
+			if (failed) {
+				console.err(TASK_PREFIX + task.getMessage());
 				break;
 			}
 		}
-		console.removePrefix();
 		return state;
 	}
 	
-	public void setTasks(Task[] tasks) {
-		this.tasks = tasks;
-		for (Task task : tasks) { 
-			task.setCategory(this);
-		}
+	public void addTask(Task task) {
+		this.tasks.add(task);
 	}
 	
 	public String getName() {
 		return this.name;
 	}
 	
-	public Task[] getTasks() {
+	public ArrayList<Task> getTasks() {
 		return tasks;
 	}
 	

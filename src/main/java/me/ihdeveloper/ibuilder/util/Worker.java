@@ -7,7 +7,7 @@ import com.google.common.base.Preconditions;
 
 public class Worker {
 	
-	public static int create(File directory, String[] command) throws IllegalArgumentException, IOException, InterruptedException {
+	public static int create(File directory, String... command) throws IllegalArgumentException, IOException, InterruptedException {
 		Worker worker = new Worker(directory, command);
 		return worker.start();
 	}

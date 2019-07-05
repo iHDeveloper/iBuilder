@@ -10,23 +10,13 @@ public class Console {
 	private final PrintStream out;
 	private long start;
 	private String lastMessage;
-	private int prefix;
 	
 	public Console(PrintStream out) {
 		this.out = out;
-		this.prefix = 0;
 	}
 	
 	public PrintStream getOutput() {
 		return out;
-	}
-	
-	public void addPrefix() {
-		prefix++;
-	}
-	
-	public void removePrefix() {
-		prefix--;
 	}
 	
 	public void log(String message) {
@@ -64,10 +54,7 @@ public class Console {
 	}
 	
 	private void print(String state, String message) {
-		String space = "";
-		for (int i = 0; i < prefix; i++)
-			space += " ";
-		final String output = String.format("%s[%s] [%s]: %s", space, getDate(), state.toUpperCase(), message);
+		final String output = String.format("[%s] [%s]: %s", getDate(), state.toUpperCase(), message);
 		this.out.print(output);
 	}
 	

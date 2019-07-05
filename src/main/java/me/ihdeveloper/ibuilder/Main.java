@@ -4,6 +4,7 @@ import java.io.File;
 
 import me.ihdeveloper.ibuilder.category.CloneCategory;
 import me.ihdeveloper.ibuilder.category.RequiresCategory;
+import me.ihdeveloper.ibuilder.category.SetupCategory;
 import me.ihdeveloper.ibuilder.util.Console;
 
 public class Main {
@@ -17,7 +18,8 @@ public class Main {
 		System.out.println();
 		Category[] categories = {
 				new RequiresCategory(),
-				new CloneCategory()
+				new CloneCategory(),
+				new SetupCategory()
 		};
 		for (Category category : categories) {
 			boolean failed = !category.start();

@@ -12,7 +12,7 @@ public class CloneCategory extends Category {
 		addTask("Bukkit", Links.BUKKIT_URL);
 		addTask("CraftBukkit", Links.CRAFTBUKKIT_URL);
 		addTask("Spigot", Links.SPIGOT_URL);
-		addTask("Build Data", Links.BUILD_DATA_URL);
+		addTask("BuildData", Links.BUILD_DATA_URL);
 	}
 	
 	public void addTask(String name, String url) {

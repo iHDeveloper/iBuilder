@@ -27,7 +27,8 @@ public class SetupToolTask extends Task {
 		try {
 			Class<?> iBuilderClass = IBuilder.class;
 			Method setMethod = iBuilderClass.getDeclaredMethod("set" + name, Git.class);
-			setMethod.invoke(null, Git.open(folder));
+			Git git = Git.open(folder);
+			setMethod.invoke(null, git);
 		} catch (Exception e) {
 			getConsole().debug(e.getMessage());
 			return false;

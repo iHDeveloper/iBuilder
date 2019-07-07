@@ -31,6 +31,10 @@ public class Console {
 		this.println("warn", message);
 	}
 	
+	public void errf(String format, Object... args) {
+		this.err(String.format(format, args));
+	}
+	
 	public void err(String message) {
 		this.println("err", message);
 	}

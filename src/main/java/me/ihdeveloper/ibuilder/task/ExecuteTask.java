@@ -28,10 +28,11 @@ public class ExecuteTask extends Task {
 				Worker.git(directory, command);
 			else if (type == ExecuteType.CMD)
 				Worker.cmd(directory, command);
-			Worker.create(directory, command);
+			else
+				Worker.create(directory, command);
 		} catch (Exception e) {
 			getConsole().debugf("Failed to execute: (%s/%s) %s", getName(), type, e.getMessage());
-			setMessage("Failed to execute: (%s/%s) %s\", getName(), type, e.getMessage()");
+			setMessage("Failed to execute: (%s/%s) %s", getName(), type, e.getMessage());
 			return false;
 		}
 		return true;

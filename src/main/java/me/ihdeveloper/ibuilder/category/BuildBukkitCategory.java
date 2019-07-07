@@ -63,6 +63,15 @@ public class BuildBukkitCategory extends Category implements Listener {
 			addTask(new ExecuteTask("Extracting the members from the mapped jar", ExecuteType.CMD, IBuilder.getRoot(), versionInfo.getMemberMapCommand().split(" ")));
 			addTask(new ExecuteTask("Extracting the packages from the mapped jar", ExecuteType.CMD, IBuilder.getRoot(), versionInfo.getFinalMapCommand().split(" ")));
 		}
+		String[] buildCommand = {
+				"install:install-file",
+				"-Dfile=" + finalMappedJar,
+				"-Dpackaging=jar",
+				"-DgroupId=org.spigotmc",
+				"-DartifactId=minecraft-server",
+				"-Dversion=" + versionInfo.getMinecraftVersion() + "-SNAPSHOT"
+		};
+		addTask(new ExecuteTask("Build the final mapped jar", ExecuteType.MAVEN, IBuilder.getRoot(), buildCommand));
 	}
 
 }

@@ -2,29 +2,28 @@ package me.ihdeveloper.ibuilder.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ObjectArrays;
 
 import me.ihdeveloper.ibuilder.IBuilder;
 
 public class Worker {
 	
+	public static int cmd(File directory, String... command) throws IllegalArgumentException, IOException, InterruptedException {
+		final String[] cmd = {
+			"cmd.exe", "/C" 
+		};
+		return create(directory, ObjectArrays.concat(cmd, command, String.class));
+	}
+	
 	public static int git(File directory, String... command) throws IllegalArgumentException, IOException, InterruptedException {
-		List<String> args = new ArrayList<String>();
-		if (IBuilder.isWindows()) args.add(IBuilder.getGit().getAbsolutePath() + "/bin/git.exe");
-		else args.add("git");
-		args.addAll(Arrays.asList(command));
-		return create(directory, args.toArray(new String[0]));
+		String git = IBuilder.isWindows() ? IBuilder.getGit().getAbsolutePath() + "/bin/git.exe" : "git";
+		return create(directory, ObjectArrays.concat(git, command));
 	}
 	
 	public static int maven(File directory, String... command) throws IllegalArgumentException, IOException, InterruptedException {
-		List<String> args = new ArrayList<String>();
-		args.add(IBuilder.getMaven().getAbsolutePath() + "/bin/mvn");
-		args.addAll(Arrays.asList(command));
-		return create(directory, args.toArray(new String[0]));
+		return cmd(directory, ObjectArrays.concat("mvn", command));
 	}
 	
 	public static int create(File directory, String... command) throws IllegalArgumentException, IOException, InterruptedException {
@@ -44,7 +43,20 @@ public class Worker {
 	
 	public int start() throws IOException, InterruptedException {
 		ProcessBuilder builder = new ProcessBuilder(getCommand());
-		// TODO edit the environment
+		builder.directory(getDirectory());
+		String pathKey = null;
+		String path = null;
+		for (String key : builder.environment().keySet()) {
+			if (key.equalsIgnoreCase("path")) {
+				pathKey = key;
+				path = builder.environment().get(key);
+			}
+		}
+		if (path != null) {
+			if (IBuilder.getMaven() != null)
+				path += ";" + IBuilder.getMaven().getAbsolutePath() + "/bin";
+			builder.environment().put(pathKey, path);
+		}
 		final Process process = builder.start();
 		final int exitCode = process.waitFor();
 		return exitCode;

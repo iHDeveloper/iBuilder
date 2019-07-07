@@ -6,6 +6,7 @@ import java.io.IOException;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
+import me.ihdeveloper.ibuilder.category.BuildBukkitCategory;
 import me.ihdeveloper.ibuilder.category.CloneCategory;
 import me.ihdeveloper.ibuilder.category.RequiresCategory;
 import me.ihdeveloper.ibuilder.category.SetupCategory;
@@ -32,28 +33,30 @@ public class Main {
 		
 		Console console = new Console(System.out);
 		IBuilder.setConsole(console);
+		IBuilder.setEventManager(new EventManager());
 		IBuilder.setRoot(new File("."));
 		console.log("OS Name: " + System.getProperty("os.name"));
 		
 		String jenkinsVersion = options.valueOf(version);
-		console.logf("Fetching version %s...", jenkinsVersion);
+		console.loadingf("Fetching version %s", jenkinsVersion);
 		BuildInfo buildInfo;
 		try {
 			buildInfo = IBuilder.fetchBuildInfo(jenkinsVersion);
 		} catch (Exception e) {
-			console.err("Failed to fetch the version!");
+			console.err();
 			System.exit(1);
 			return;
 		}
 		IBuilder.setBuildInfo(buildInfo);
-		
+		console.done();
 		
 		console.log("Building...");
 		System.out.println();
 		Category[] categories = {
 				new RequiresCategory(),
 				new CloneCategory(),
-				new SetupCategory(buildInfo.getReference())
+				new SetupCategory(buildInfo.getReference()),
+				new BuildBukkitCategory()
 		};
 		for (Category category : categories) {
 			boolean failed = !category.start();

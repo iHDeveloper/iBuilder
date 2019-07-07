@@ -48,6 +48,50 @@ public class VersionInfo {
 		this.serverUrl = serverUrl;
 	}
 	
+	public void setMinecraftVersion(String minecraftVersion) {
+		this.minecraftVersion = minecraftVersion;
+	}
+	
+	public void setAccessTransforms(String accessTransforms) {
+		this.accessTransforms = accessTransforms;
+	}
+	
+	public void setClassMappings(String classMappings) {
+		this.classMappings = classMappings;
+	}
+	
+	public void setMemberMappings(String memberMappings) {
+		this.memberMappings = memberMappings;
+	}
+	
+	public void setPackageMappings(String packageMappings) {
+		this.packageMappings = packageMappings;
+	}
+	
+	public void setMinecraftHash(String minecraftHash) {
+		this.minecraftHash = minecraftHash;
+	}
+	
+	public void setClassMapCommand(String classMapCommand) {
+		this.classMapCommand = classMapCommand;
+	}
+	
+	public void setMemberMapCommand(String memberMapCommand) {
+		this.memberMapCommand = memberMapCommand;
+	}
+	
+	public void setFinalMapCommand(String finalMapCommand) {
+		this.finalMapCommand = finalMapCommand;
+	}
+	
+	public void setDecompileCommand(String decompileCommand) {
+		this.decompileCommand = decompileCommand;
+	}
+	
+	public void setServerUrl(String serverUrl) {
+		this.serverUrl = serverUrl;
+	}
+	
 	public String getMinecraftVersion() {
 		return minecraftVersion;
 	}

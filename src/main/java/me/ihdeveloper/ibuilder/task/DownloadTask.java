@@ -20,27 +20,41 @@ public class DownloadTask extends Task {
 	private final String target;
 	private final HashFormat hashFormat;
 	private final String proofHash;
+	private final boolean temp;
 	
 	public DownloadTask(Config config, String target, String proofHash) {
 		this(config, target, HashFormat.MD5, proofHash);
 	}
 	
 	public DownloadTask(Config config, String target, HashFormat hashFormat, String proofHash) {
-		this(config.getName(), config.getUrl(), target, hashFormat, proofHash);
+		this(config.getName(), config.getUrl(), target, hashFormat, proofHash, false);
+	}
+	
+	public DownloadTask(Config config, String target, HashFormat hashFormat, String proofHash, boolean temp) {
+		this(config.getName(), config.getUrl(), target, hashFormat, proofHash, temp);
+	}
+	
+	public DownloadTask(String name, String url, String target, String proofHash) {
+		this(name, url, target, HashFormat.MD5, proofHash, false);
 	}
 	
 	public DownloadTask(String name, String url, String target, HashFormat hashFormat, String proofHash) {
+		this(name, url, target, hashFormat, proofHash, false);
+	}
+	
+	public DownloadTask(String name, String url, String target, HashFormat hashFormat, String proofHash, boolean temp) {
 		super("Downloading " + name + " [ " + url + " ]");
 		this.name = name;
 		this.url = url;
 		this.target = target;
 		this.hashFormat = hashFormat;
 		this.proofHash = proofHash;
+		this.temp = temp;
 	}
 	
 	@Override
 	public boolean run() {
-		File targetFile = IBuilder.getRoot(target);
+		File targetFile = temp ? IBuilder.getTemp(target) : IBuilder.getRoot(target);
 		if (targetFile.exists()) {
 			return true;
 		}

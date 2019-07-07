@@ -36,6 +36,9 @@ public class Console {
 	}
 	
 	public void err(String message) {
+		try { throw new Exception(); } catch (Exception e) {
+			e.printStackTrace();
+		}
 		this.println("err", message);
 	}
 	

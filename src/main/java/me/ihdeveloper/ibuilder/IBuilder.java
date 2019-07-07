@@ -19,7 +19,9 @@ import me.ihdeveloper.ibuilder.util.VersionInfo;
 public final class IBuilder {
 	
 	private static Console console;
+	private static EventManager eventManager;
 	private static File root;
+	private static File temp;
 	private static File git;
 	private static File maven;
 	private static Git bukkit;
@@ -49,8 +51,15 @@ public final class IBuilder {
 		IBuilder.console = console;
 	}
 	
+	public static void setEventManager(EventManager eventManager) {
+		IBuilder.eventManager = eventManager;
+	}
+	
 	public static void setRoot(File root) {
 		IBuilder.root = root;
+		File tempDir = IBuilder.getRoot(".ibuilder");
+		tempDir.mkdir();
+		temp = tempDir;
 	}
 	
 	public static void setGit(File git) {
@@ -93,8 +102,16 @@ public final class IBuilder {
 		return console;
 	}
 	
+	public static EventManager getEventManager() {
+		return eventManager;
+	}
+	
 	public static File getRoot() {
 		return root;
+	}
+	
+	public static File getTemp() {
+		return temp;
 	}
 	
 	public static File getGit() {
@@ -131,6 +148,10 @@ public final class IBuilder {
 	
 	public static File getRoot(String name) {
 		return new File(root + "/" + name);
+	}
+	
+	public static File getTemp(String name) {
+		return new File(temp + "/" + name);
 	}
 
 }

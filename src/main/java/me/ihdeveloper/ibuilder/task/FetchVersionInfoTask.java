@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 
 import me.ihdeveloper.ibuilder.IBuilder;
 import me.ihdeveloper.ibuilder.Task;
+import me.ihdeveloper.ibuilder.event.FetchVersionEvent;
 import me.ihdeveloper.ibuilder.util.VersionInfo;
 
 public class FetchVersionInfoTask extends Task {
@@ -24,6 +25,7 @@ public class FetchVersionInfoTask extends Task {
 				 versionInfo = new VersionInfo( "1.8", "bukkit-1.8.at", "bukkit-1.8-cl.csrg", "bukkit-1.8-members.csrg", "package.srg", null);
 			 }
 			 IBuilder.setVersionInfo(versionInfo);
+			 IBuilder.getEventManager().broadcast(new FetchVersionEvent(versionInfo));
 		} catch (Exception e) {
 			return false;
 		}

@@ -42,7 +42,7 @@ public class Main {
 			buildInfo = IBuilder.fetchBuildInfo(jenkinsVersion);
 		} catch (Exception e) {
 			console.err("Failed to fetch the version!");
-			// TOOD exit with non 0 code
+			System.exit(1);
 			return;
 		}
 		

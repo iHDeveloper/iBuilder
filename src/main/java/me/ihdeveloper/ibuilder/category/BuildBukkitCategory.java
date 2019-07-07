@@ -3,6 +3,8 @@ package me.ihdeveloper.ibuilder.category;
 import java.io.File;
 import java.text.MessageFormat;
 
+import com.google.common.base.Predicate;
+
 import me.ihdeveloper.ibuilder.Category;
 import me.ihdeveloper.ibuilder.EventHandler;
 import me.ihdeveloper.ibuilder.IBuilder;
@@ -11,6 +13,7 @@ import me.ihdeveloper.ibuilder.event.FetchVersionEvent;
 import me.ihdeveloper.ibuilder.task.BuildTask;
 import me.ihdeveloper.ibuilder.task.DownloadTask;
 import me.ihdeveloper.ibuilder.task.ExecuteTask;
+import me.ihdeveloper.ibuilder.task.UnzipTask;
 import me.ihdeveloper.ibuilder.type.ExecuteType;
 import me.ihdeveloper.ibuilder.util.HashFormat;
 import me.ihdeveloper.ibuilder.util.VersionInfo;
@@ -56,12 +59,9 @@ public class BuildBukkitCategory extends Category implements Listener {
 			String classMapCommand = MessageFormat.format(versionInfo.getClassMapCommand(), vanillaJarFile.getPath(), MAPPINGS_PATH + versionInfo.getClassMappings(), classMappedJar.getPath());
 			String memberMapCommand = MessageFormat.format(versionInfo.getMemberMapCommand(), classMappedJar.getPath(), MAPPINGS_PATH + versionInfo.getMemberMappings(), memberMappedJar.getPath());
 			String finalMapCommand = MessageFormat.format(versionInfo.getFinalMapCommand(), memberMappedJar.getPath(), MAPPINGS_PATH + versionInfo.getAccessTransforms(), MAPPINGS_PATH + versionInfo.getPackageMappings(), finalMappedJar.getPath());
-			versionInfo.setClassMapCommand(classMapCommand);
-			versionInfo.setMemberMapCommand(memberMapCommand);
-			versionInfo.setFinalMapCommand(finalMapCommand);
-			addTask(new ExecuteTask("Extracting the classes from the mapped jar", ExecuteType.CMD, IBuilder.getRoot(), versionInfo.getClassMapCommand().split(" ")));
-			addTask(new ExecuteTask("Extracting the members from the mapped jar", ExecuteType.CMD, IBuilder.getRoot(), versionInfo.getMemberMapCommand().split(" ")));
-			addTask(new ExecuteTask("Extracting the packages from the mapped jar", ExecuteType.CMD, IBuilder.getRoot(), versionInfo.getFinalMapCommand().split(" ")));
+			addTask(new ExecuteTask("Extracting the classes from the mapped jar", ExecuteType.CMD, IBuilder.getRoot(), classMapCommand.split(" ")));
+			addTask(new ExecuteTask("Extracting the members from the mapped jar", ExecuteType.CMD, IBuilder.getRoot(), memberMapCommand.split(" ")));
+			addTask(new ExecuteTask("Extracting the packages from the mapped jar", ExecuteType.CMD, IBuilder.getRoot(), finalMapCommand.split(" ")));
 		}
 		String[] buildCommand = {
 				"install:install-file",
@@ -72,6 +72,23 @@ public class BuildBukkitCategory extends Category implements Listener {
 				"-Dversion=" + versionInfo.getMinecraftVersion() + "-SNAPSHOT"
 		};
 		addTask(new ExecuteTask("Build the final mapped jar", ExecuteType.MAVEN, IBuilder.getRoot(), buildCommand));
+		File decompileFolder = IBuilder.getTemp("decompile-" + versionInfo.getMinecraftVersion());
+		if (!decompileFolder.exists()) {
+			decompileFolder.mkdir();
+			File classesFolder = IBuilder.getTemp("decompile-" + versionInfo.getMinecraftVersion() +  "-classes");
+			Predicate<String> filter = new Predicate<String>() {
+				
+				@Override
+				public boolean apply(String input) {
+					return input.startsWith("net/minecraft/server");
+				}
+			};
+			addTask(new UnzipTask("Classes", finalMappedJar, classesFolder, filter));
+			if (versionInfo.getDecompileCommand() == null)
+				versionInfo.setDecompileCommand("java -jar BuildData/bin/fernflower.jar -dgs=1 -hdc=0 -rbr=0 -asc=1 -udv=0 {0} {1}");
+			String decompileCommand = MessageFormat.format(versionInfo.getDecompileCommand(), classesFolder.getPath(), decompileFolder.getPath());
+			addTask(new ExecuteTask("Decompiling mapped jar", ExecuteType.CMD, IBuilder.getRoot(), decompileCommand.split(" ")));
+		}
 	}
 
 }

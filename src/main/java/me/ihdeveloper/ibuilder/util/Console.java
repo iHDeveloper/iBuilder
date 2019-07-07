@@ -35,6 +35,10 @@ public class Console {
 		this.println("err", message);
 	}
 	
+	public void debugf(String format, Object... args) {
+		this.debug(String.format(format, args));
+	}
+	
 	public void debug(String message) {
 		this.println("debug", message);
 	}

@@ -5,13 +5,13 @@ public class BuildInfo {
 	private String name;
 	private String description;
 	private int[] javaVersions;
-	private BuildInfoReference reference;
+	private BuildInfoReference refs;
 	
-	public BuildInfo(String name, String description, int[] javaVersions, BuildInfoReference reference) {
+	public BuildInfo(String name, String description, int[] javaVersions, BuildInfoReference refs) {
 		this.name = name;
 		this.description = description;
 		this.javaVersions = javaVersions;
-		this.reference = reference;
+		this.refs = refs;
 	}
 	
 	public void setName(String name) {
@@ -26,8 +26,8 @@ public class BuildInfo {
 		this.javaVersions = javaVersions;
 	}
 	
-	public void setReference(BuildInfoReference reference) {
-		this.reference = reference;
+	public void setReference(BuildInfoReference refs) {
+		this.refs = refs;
 	}
 	
 	public String getName() {
@@ -43,7 +43,7 @@ public class BuildInfo {
 	}
 	
 	public BuildInfoReference getReference() {
-		return reference;
+		return refs;
 	}
 	
 }

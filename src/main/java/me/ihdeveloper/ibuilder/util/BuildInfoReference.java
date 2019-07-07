@@ -2,48 +2,48 @@ package me.ihdeveloper.ibuilder.util;
 
 public class BuildInfoReference {
 	
-	private String bukkit;
-	private String craftbukkit;
-	private String spigot;
-	private String buildData;
+	private String Bukkit;
+	private String CraftBukkit;
+	private String Spigot;
+	private String BuildData;
 	
-	public BuildInfoReference(String bukkit, String craftbukkit, String spigot, String buildData) {
-		this.bukkit = bukkit;
-		this.craftbukkit = craftbukkit;
-		this.spigot = spigot;
-		this.buildData = buildData;
+	public BuildInfoReference(String Bukkit, String CraftBukkit, String Spigot, String BuildData) {
+		this.Bukkit = Bukkit;
+		this.CraftBukkit = CraftBukkit;
+		this.Spigot = Spigot;
+		this.BuildData = BuildData;
 	}
 	
-	public void setBukkit(String bukkit) {
-		this.bukkit = bukkit;
+	public void setBukkit(String Bukkit) {
+		this.Bukkit = Bukkit;
 	}
 	
-	public void setCraftbukkit(String craftbukkit) {
-		this.craftbukkit = craftbukkit;
+	public void setCraftbukkit(String CraftBukkit) {
+		this.CraftBukkit = CraftBukkit;
 	}
 	
-	public void setSpigot(String spigot) {
-		this.spigot = spigot;
+	public void setSpigot(String Spigot) {
+		this.Spigot = Spigot;
 	}
 	
-	public void setBuildData(String buildData) {
-		this.buildData = buildData;
+	public void setBuildData(String BuildData) {
+		this.BuildData = BuildData;
 	}
 	
 	public String getBukkit() {
-		return bukkit;
+		return Bukkit;
 	}
 	
 	public String getCraftbukkit() {
-		return craftbukkit;
+		return CraftBukkit;
 	}
 	
 	public String getSpigot() {
-		return spigot;
+		return Spigot;
 	}
 	
 	public String getBuildData() {
-		return buildData;
+		return BuildData;
 	}
 	
 }

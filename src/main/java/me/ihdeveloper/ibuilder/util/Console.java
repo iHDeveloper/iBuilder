@@ -19,6 +19,10 @@ public class Console {
 		return out;
 	}
 	
+	public void logf(String format, Object... args) {
+		this.log(String.format(format, args));
+	}
+	
 	public void log(String message) {
 		this.println("log", message);
 	}

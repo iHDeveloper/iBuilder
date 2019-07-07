@@ -11,10 +11,12 @@ import me.ihdeveloper.ibuilder.Task;
 public class SetupToolTask extends Task {
 
 	private String name;
+	private String ref;
 	
-	public SetupToolTask(String name) {
+	public SetupToolTask(String name, String ref) {
 		super("Setting up " + name);
 		this.name = name;
+		this.ref = ref;
 	}
 	
 	public boolean run() {
@@ -28,6 +30,8 @@ public class SetupToolTask extends Task {
 			Class<?> iBuilderClass = IBuilder.class;
 			Method setMethod = iBuilderClass.getDeclaredMethod("set" + name, Git.class);
 			Git git = Git.open(folder);
+			git.branchCreate().setStartPoint(ref).setName("ibuilder").call();
+			getConsole().debugf("Created branch ibuilder in /%s from %s", name, ref);
 			setMethod.invoke(null, git);
 		} catch (Exception e) {
 			getConsole().debug(e.getMessage());

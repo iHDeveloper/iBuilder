@@ -52,7 +52,7 @@ public class Main {
 		Category[] categories = {
 				new RequiresCategory(),
 				new CloneCategory(),
-				new SetupCategory()
+				new SetupCategory(buildInfo.getReference())
 		};
 		for (Category category : categories) {
 			boolean failed = !category.start();

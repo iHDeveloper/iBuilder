@@ -19,32 +19,36 @@ public class Console {
 		return out;
 	}
 	
-	public void logf(String format, Object... args) {
-		this.log(String.format(format, args));
-	}
-	
 	public void log(String message) {
 		this.println("log", message);
+	}
+	
+	public void logf(String format, Object... args) {
+		this.log(String.format(format, args));
 	}
 	
 	public void warn(String message) {
 		this.println("warn", message);
 	}
 	
-	public void errf(String format, Object... args) {
-		this.err(String.format(format, args));
+	public void err() {
+		this.close(" | Failed!");
 	}
 	
 	public void err(String message) {
 		this.println("err", message);
 	}
 	
-	public void debugf(String format, Object... args) {
-		this.debug(String.format(format, args));
+	public void errf(String format, Object... args) {
+		this.err(String.format(format, args));
 	}
 	
 	public void debug(String message) {
 		this.println("debug", message);
+	}
+	
+	public void debugf(String format, Object... args) {
+		this.debug(String.format(format, args));
 	}
 	
 	public void loading(String message) {
@@ -56,6 +60,10 @@ public class Console {
 	public void done() {
 		long duration = System.currentTimeMillis() - start;
 		String state = String.format(" | Done! (%sms)", duration);
+		this.close(state);
+	}
+	
+	private void close(String state) {
 		this.println("log", lastMessage + state);
 		this.lastMessage = null;
 		this.start = -1;

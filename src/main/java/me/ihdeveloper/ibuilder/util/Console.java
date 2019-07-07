@@ -51,6 +51,10 @@ public class Console {
 		this.debug(String.format(format, args));
 	}
 	
+	public void loadingf(String format, Object... args) {
+		this.loading(String.format(format, args));
+	}
+	
 	public void loading(String message) {
 		this.print("log", message + " | Loading...\r"); 
 		this.start = System.currentTimeMillis();

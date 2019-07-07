@@ -30,7 +30,8 @@ public class SetupToolTask extends Task {
 			Class<?> iBuilderClass = IBuilder.class;
 			Method setMethod = iBuilderClass.getDeclaredMethod("set" + name, Git.class);
 			Git git = Git.open(folder);
-			git.branchCreate().setStartPoint(ref).setName("ibuilder").call();
+			git.branchDelete().setBranchNames("ibuilder").setForce(true).call();
+			git.branchCreate().setStartPoint(ref).setName("ibuilder").setForce(true).call();
 			getConsole().debugf("Created branch ibuilder in /%s from %s", name, ref);
 			setMethod.invoke(null, git);
 		} catch (Exception e) {

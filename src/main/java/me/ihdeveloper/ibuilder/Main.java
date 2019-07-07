@@ -45,6 +45,7 @@ public class Main {
 			System.exit(1);
 			return;
 		}
+		IBuilder.setBuildInfo(buildInfo);
 		
 		
 		console.log("Building...");

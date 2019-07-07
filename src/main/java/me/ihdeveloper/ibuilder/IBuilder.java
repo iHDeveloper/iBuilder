@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import me.ihdeveloper.ibuilder.util.BuildInfo;
 import me.ihdeveloper.ibuilder.util.Console;
 import me.ihdeveloper.ibuilder.util.Links;
+import me.ihdeveloper.ibuilder.util.VersionInfo;
 
 public final class IBuilder {
 	
@@ -25,6 +26,8 @@ public final class IBuilder {
 	private static Git craftBukkit;
 	private static Git spigot;
 	private static Git buildData;
+	private static BuildInfo buildInfo;
+	private static VersionInfo versionInfo;
 	
 	public static BuildInfo fetchBuildInfo(String version) throws IOException {
 		final String url = String.format("%s%s%s", Links.SPIGOTMC_VERSIONS, version, ".json");
@@ -74,6 +77,14 @@ public final class IBuilder {
 		IBuilder.buildData = buildData;
 	}
 	
+	public static void setBuildInfo(BuildInfo buildInfo) {
+		IBuilder.buildInfo = buildInfo;
+	}
+	
+	public static void setVersionInfo(VersionInfo versionInfo) {
+		IBuilder.versionInfo = versionInfo;
+	}
+	
 	public static boolean isWindows() {
 		return System.getProperty("os.name").startsWith("Windows") == true;
 	}
@@ -108,6 +119,14 @@ public final class IBuilder {
 	
 	public static Git getBuildData() {
 		return buildData;
+	}
+	
+	public static BuildInfo getBuildInfo() {
+		return buildInfo;
+	}
+	
+	public static VersionInfo getVersionInfo() {
+		return versionInfo;
 	}
 	
 	public static File getRoot(String name) {
